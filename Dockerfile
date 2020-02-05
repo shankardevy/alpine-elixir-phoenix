@@ -11,10 +11,6 @@ ENV REFRESHED_AT=2020-01-22 \
     MIX_HOME=/opt/mix \
     HEX_HOME=/opt/hex
 
-
-RUN addgroup --gid 1003 talamdev && adduser --disabled-password --disabled-login --gecos "" --uid ${UID} --gid 1003 ${USER}
-USER ${USER}
-
 WORKDIR /tmp/elixir-build
 
 RUN \
@@ -60,5 +56,11 @@ ENV PATH=./node_modules/.bin:$PATH
 RUN mix archive.install hex phx_new 1.4.12 --force
 
 WORKDIR /opt/app
+
+ARG uid
+ARG gid
+
+RUN addgroup -g ${gid} talamdev && adduser -D -H -u ${uid} -G talamdev talamdev
+USER talamdev
 
 CMD ["/bin/sh"]
