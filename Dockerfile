@@ -7,9 +7,13 @@ LABEL maintainer="shankardevy@gmail.com"
 # of the base images and things like `apt-get update` won't be using
 # old cached versions when the Dockerfile is built.
 ENV REFRESHED_AT=2020-01-22 \
-    ELIXIR_VERSION=v1.9.4 \
+    ELIXIR_VERSION=v1.10.0 \
     MIX_HOME=/opt/mix \
     HEX_HOME=/opt/hex
+
+
+RUN addgroup --gid 1003 talamdev && adduser --disabled-password --disabled-login --gecos "" --uid ${UID} --gid 1003 ${USER}
+USER ${USER}
 
 WORKDIR /tmp/elixir-build
 
